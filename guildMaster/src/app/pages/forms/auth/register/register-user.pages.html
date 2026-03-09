@@ -1,0 +1,31 @@
+<div class="gm-register">
+    <div class="gm-register-form">
+        <form [formGroup]="registerForm">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" formControlName="email"/>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" formControlName = "username"/>
+            <label for="pass">Password:</label>
+            <input type="password" name="pass" id="pass" formControlName="password"/>
+            <label for="repeatPass">Repeat Password:</label>
+            <input type="password" name="repeatPass" id="repeatPass" formControlName="repeatPassword"/>
+            <label for="firstName">First Name:</label>
+            <input type="text" name="firstName" id="firstName" formControlName="firstName"/>
+            <label for="lastName">Last Name:</label>
+            <input type="text" name="lastName" id="lastName" formControlName="lastName"/>
+            <div class="gm-register-form-date" formGroupName="dob">
+                <h6>Your Birthday</h6>
+                <label for="day">Day:</label>
+                <input type="number" name="day" id="day" formControlName="day"/>
+                <label for="month">Month:</label>
+                <input type="number" name="month" id="month" formControlName="month"/>
+                <label for="year">Year:</label>
+                <input type="number" name="year" id="year" formControlName="year"/>
+            </div>
+            <label for="bio">Tell Us About You:</label>
+            <textarea name="bio" id="bio" formControlName="bio"></textarea>
+            <label for="profession">What Do You Aspire To Be:</label>
+            <input type="text" name="proffesion" id="profession" formControlName="profession"/>
+        </form>
+    </div>
+</div>
