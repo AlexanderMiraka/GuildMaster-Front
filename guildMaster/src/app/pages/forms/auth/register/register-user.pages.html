@@ -1,31 +1,83 @@
 <div class="gm-register">
-    <div class="gm-register-form">
-        <form [formGroup]="registerForm">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" formControlName="email"/>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" formControlName = "username"/>
-            <label for="pass">Password:</label>
-            <input type="password" name="pass" id="pass" formControlName="password"/>
-            <label for="repeatPass">Repeat Password:</label>
-            <input type="password" name="repeatPass" id="repeatPass" formControlName="repeatPassword"/>
-            <label for="firstName">First Name:</label>
-            <input type="text" name="firstName" id="firstName" formControlName="firstName"/>
-            <label for="lastName">Last Name:</label>
-            <input type="text" name="lastName" id="lastName" formControlName="lastName"/>
-            <div class="gm-register-form-date" formGroupName="dob">
-                <h6>Your Birthday</h6>
-                <label for="day">Day:</label>
-                <input type="number" name="day" id="day" formControlName="day"/>
-                <label for="month">Month:</label>
-                <input type="number" name="month" id="month" formControlName="month"/>
-                <label for="year">Year:</label>
-                <input type="number" name="year" id="year" formControlName="year"/>
-            </div>
-            <label for="bio">Tell Us About You:</label>
-            <textarea name="bio" id="bio" formControlName="bio"></textarea>
-            <label for="profession">What Do You Aspire To Be:</label>
-            <input type="text" name="proffesion" id="profession" formControlName="profession"/>
-        </form>
-    </div>
+  <div class="gm-register-form">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" formControlName="email" />
+      @if(registerForm.controls['email'].errors?.['email'] && submitted) {
+      <h1>Wrong Pattern</h1>
+      } @else if (registerForm.controls['email'].errors?.['required'] &&
+      submitted) {
+      <h1>email is required</h1>
+      }
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        formControlName="username"
+      />
+      @if(registerForm.controls['username'].errors?.['required']&&submitted) {
+      <h1>username cannot be empty</h1>
+      }
+      <label for="pass">Password:</label>
+      <input type="password" name="pass" id="pass" formControlName="password" />
+      @if(registerForm.controls['password'].errors?.['pattern'] && submitted) {
+      <h1>
+        password must contain letters, numbers, special characters(&#33;&#64;&#35;&#36;&#37;&#94;&#38;&#42;) and
+        must be from 8 to 16 characters
+      </h1>
+      }
+      <label for="repeatPass">Repeat Password:</label>
+      <input
+        type="password"
+        name="repeatPass"
+        id="repeatPass"
+        formControlName="repeatPassword"
+      />
+      @if(registerForm.hasError('mismatch') && submitted) {
+      <h1>Passwords must match</h1>
+      }
+      <label for="firstName">First Name:</label>
+      <input
+        type="text"
+        name="firstName"
+        id="firstName"
+        formControlName="firstName"
+      />
+      @if((registerForm.controls['firstName'].errors?.['pattern'] ||
+      registerForm.controls['firstName'].errors?.['required']) && submitted) {
+      <h1>First Name must be only letters and is required</h1>
+      }
+      <label for="lastName">Last Name:</label>
+      <input
+        type="text"
+        name="lastName"
+        id="lastName"
+        formControlName="lastName"
+      />
+      @if((registerForm.controls['lastName'].errors?.['pattern'] ||
+      registerForm.controls['lastName'].errors?.['required']) && submitted) {
+      <h1>First Name must be only letters and is required</h1>
+      }
+      <div class="gm-register-form-date" formGroupName="dob">
+        <h6>Your Birthday</h6>
+        <label for="day">Day:</label>
+        <input type="number" name="day" id="day" formControlName="day" />
+        <label for="month">Month:</label>
+        <input type="number" name="month" id="month" formControlName="month" />
+        <label for="year">Year:</label>
+        <input type="number" name="year" id="year" formControlName="year" />
+      </div>
+      <label for="bio">Tell Us About You:</label>
+      <textarea name="bio" id="bio" formControlName="bio"></textarea>
+      <label for="profession">What Do You Aspire To Be:</label>
+      <input
+        type="text"
+        name="proffesion"
+        id="profession"
+        formControlName="profession"
+      />
+      <button type="submit">Register</button>
+    </form>
+  </div>
 </div>
