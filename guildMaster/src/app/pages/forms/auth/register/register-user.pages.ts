@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subscription, takeUntil } from 'rxjs';
+import { registerService } from '../../../../services/auth/register.service';
 
 @Component({
   selector: 'register-user',
@@ -28,7 +29,7 @@ export class RegisterUser {
   }
   // On init subscrbe to the observable of form group valueChanges to see if a value
   // changed and lower the flag that the error raised
-  constructor() {
+  constructor(private fromService: registerService) {
     this.registerForm = new FormGroup(
       {
         email: new FormControl(
@@ -38,17 +39,11 @@ export class RegisterUser {
         username: new FormControl('', Validators.required),
         password: new FormControl(
           '',
-          Validators.compose([
-            Validators.pattern('^[a-zA-Z\d!@#$%^&*]{8,16}$'),
-            Validators.required,
-          ]),
+          Validators.compose([Validators.pattern(''), Validators.required]),
         ),
         repeatPassword: new FormControl(
           '',
-          Validators.compose([
-            Validators.pattern('^[a-zA-Z\d!@#$%^&*]{8,16}$'),
-            Validators.required,
-          ]),
+          Validators.compose([Validators.pattern(''), Validators.required]),
         ),
         firstName: new FormControl(
           '',
@@ -91,7 +86,20 @@ export class RegisterUser {
   // passwords don't match or null id they do
   register(): void {
     this.submitted = true;
-    console.log(this.registerForm.errors);
+    //check if controls in form group have an error field and push them to an array
+    let invalidInputs: unknown[] = [];
+    let isInvalid = Object.keys(this.registerForm.controls).forEach((key) => {
+      const toBoolExpr = this.registerForm.get(key)?.errors;
+      if (toBoolExpr) {
+        invalidInputs.push(toBoolExpr);
+      }
+    });
+    //if the errors array is empty and the form group does not have the password mismatch error.
+    //procced with the service store
+    if (invalidInputs.length === 0 && !this.registerForm.hasError('mismatch')) {
+      this.fromService.setUser(this.registerForm.value);
+      this.fromService.getUser();
+    }
   }
   // method on submit
   ngOnDestroy() {
