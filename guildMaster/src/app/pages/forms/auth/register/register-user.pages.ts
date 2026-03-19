@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Observable, Subscription, takeUntil } from 'rxjs';
 import { registerService } from '../../../../services/auth/register.service';
 
 @Component({
@@ -21,11 +20,8 @@ import { registerService } from '../../../../services/auth/register.service';
 export class RegisterUser {
   registerForm: FormGroup;
   submitted: boolean = false;
-  sub: Subscription = new Subscription();
   ngOnInit() {
-    this.sub = this.registerForm.valueChanges.subscribe(() => {
-      this.submitted = false;
-    });
+    this.submitted = false;
   }
   // On init subscrbe to the observable of form group valueChanges to see if a value
   // changed and lower the flag that the error raised
@@ -64,7 +60,7 @@ export class RegisterUser {
           month: new FormControl(1),
           year: new FormControl(1900),
         }),
-        bio: new FormControl(''),
+        bio: new FormControl('',{nonNullable:true}),
         profession: new FormControl(''),
       },
       {
@@ -97,13 +93,10 @@ export class RegisterUser {
     //if the errors array is empty and the form group does not have the password mismatch error.
     //procced with the service store
     if (invalidInputs.length === 0 && !this.registerForm.hasError('mismatch')) {
-      this.fromService.setUser(this.registerForm.value);
-      this.fromService.getUser();
+      this.registerForm.value.dob = `${this.registerForm.value.dob.day} - ${this.registerForm.value.dob.month} - ${this.registerForm.value.dob.year}`;
+      this.fromService.setUser(this.registerForm.getRawValue());
+      this.fromService.registerUser();
     }
   }
   // method on submit
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
-  }
-  //destroy the manual subscription
 }
