@@ -9,13 +9,14 @@ import {
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { registerService } from '../../../../services/auth/register.service';
+import { BaseCard,CardTitle,CardContent } from '../../../../components/shared/card/base-card.component';
 
 @Component({
   selector: 'register-user',
   standalone: true,
   templateUrl: './register-user.pages.html',
   styleUrl: './register-user.pages.scss',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,BaseCard,CardTitle,CardContent],
 })
 export class RegisterUser {
   registerForm: FormGroup;
