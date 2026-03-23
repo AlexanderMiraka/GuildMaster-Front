@@ -1,0 +1,9 @@
+<div class="gm-auth">
+    <h1 class="gm-authTitle">Get started or Login to an existing account</h1>
+    @if(mode==='register') {
+        <register-user (signup)="updateMode($event.toString())"></register-user>
+    }
+    @else {
+        <login-user (login)="updateMode($event.toString())"></login-user>
+    }
+</div>

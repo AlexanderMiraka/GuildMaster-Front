@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, EventEmitter, Output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,16 +9,20 @@ import {
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { registerService } from '../../../../services/auth/register.service';
-import { BaseCard,CardTitle,CardContent } from '../../../../components/shared/card/base-card.component';
+import { BaseCard,CardTitle,CardContent, CardActions } from '../../../../components/shared/card/base-card.component';
 
 @Component({
   selector: 'register-user',
   standalone: true,
-  templateUrl: './register-user.pages.html',
-  styleUrl: './register-user.pages.scss',
-  imports: [ReactiveFormsModule,BaseCard,CardTitle,CardContent],
+  templateUrl: './register-user.component.html',
+  styleUrl: './register-user.component.scss',
+  imports: [ReactiveFormsModule,BaseCard,CardTitle,CardContent,CardActions],
 })
 export class RegisterUser {
+  @Output() signup= new EventEmitter <string> ();
+    switchTab() {
+        this.signup.emit('login');
+    }
   registerForm: FormGroup;
   submitted: boolean = false;
   ngOnInit() {
