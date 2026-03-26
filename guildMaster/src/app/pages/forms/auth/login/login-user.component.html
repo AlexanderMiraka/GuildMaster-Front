@@ -1,5 +1,24 @@
 <div class="gm-login">
-    login stuff
-    <p>Don't have an account yet?</p>
-    <button (click)="switchTab()">Register</button>
+    <base-card>
+    <card-title>Login to your account</card-title>
+    <card-content>
+        <form [formGroup]="loginForm">
+            <label for="email">email</label>
+            <input type="email" id="email" formControlName="email"/>
+            <label for="username">username</label>
+            <input type="text" id="username" formControlName="username">
+            @if(hasError) {
+                <p>username or email is required</p>
+            }
+            <label for="password">password</label>
+            <input type="password" name="password" id="password" formControlName="password"/>
+        </form>
+    </card-content>
+    <card-actions>
+        <button type="submit" (click)="loginUser()">Log in</button>
+        <button>Forgot my password</button>
+        <p>Don't have an account yet?</p>
+        <button (click)="switchTab()">Register</button>
+    </card-actions>
+</base-card>
 </div>
